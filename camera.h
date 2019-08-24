@@ -5,6 +5,7 @@ class Camera{
     Camera(float* pos,float* dir, float* size, float tilt, float dist, int* res);
     void update(float* pos,float* dir, float* size, float tilt, float dist, int* res);
     float**** getRays();
+    float* getPos();
     int* getRes();
     private:
     float**** rays;

@@ -3,7 +3,8 @@
 #include<cmath>
 #include <iostream>
 #include <stdlib.h>
-#include <string.h>
+#include "triangle.h"
+
 namespace util{
 
 void printVector(float* f){
@@ -87,7 +88,7 @@ float** getRot(float* dir){
         result[2][0] = -dir[0]/m;
         result[2][1] = -dir[1]*dir[2]/m2;
         result[2][2] = dir[2];
-
+        
     }
     else{
         float m = sqrt(dir[1]*dir[1] + dir[2]*dir[2]);
@@ -109,7 +110,7 @@ float** getRot(float* dir){
         result[2][2] = dir[2];
     }
     return result;
-
+    
 }
 
 void multMat(float** A, float** B,float** C){
@@ -153,16 +154,11 @@ void freeRGBImage(unsigned int*** image,int* size){
     delete[] image;
 }
 
-
-
-void loadingBar(int prog, int tot, char tok = '#', char tok2 = '-', std::string msg = "Progress:", int len = 50){
-    int v = (len*prog)/tot;
-    std::cout << "\r" << msg << " |" << std::string(v, tok) << std::string(len-v, tok2) << "| " << prog << "/" << tot;
+bool compareTriangle(Triangle t1,Triangle t2){
+    return t1.getDistToCam() > t2.getDistToCam();
+}
 
 }
 
-
-
-}
 #define UTIL
 #endif
