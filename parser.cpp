@@ -47,9 +47,9 @@ Entity parse(char* fname){
                     vs.push_back(vec);
                 }
                 if(tokens[0].compare("f") == 0){
-                    float** vsT = new float*[3];
-                    float** texesT = new float*[3];
-                    float** nsT = new float*[3];
+                    float* vsT[3];
+                    float* texesT[3];
+                    float* nsT[3];
                     for(int j = 0;j < 3;j++){
                         vector<string> subtokens;
                         getTokens(tokens[j+1],&subtokens,"/");

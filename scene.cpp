@@ -29,13 +29,21 @@ void Scene::render(Camera cam,unsigned int*** image, int wR,int wC){
     int y = int(wR/wT);
     
     vector<Triangle> ts;
-    sortTriangles(cam);
+    //sortTriangles(cam);
     float* intersection = new float[3];
     for(int i = res[0]*(x/((float)wT));i < res[0]*((x+1)/((float)wT));i++){
         for(int j = res[1]*(y/((float)wT));j < res[1]*((y+1)/((float)hT));j++){
             float dist = HUGE_VALF;
             for(int k = 0;k < objs.size();k++){
-                ts = *(objs[k].getTriangles());
+                bool found = objs[k].findIntersection(rays[i][j],intersection);
+                if(found){
+                    util::minus(intersection,rays[0][0][0],intersection);
+                    float newDist = sqrt(util::dot(intersection,intersection));
+                    if(newDist < dist){
+                        dist = newDist;
+                    }
+                }
+                /*ts = *(objs[k].getTriangles());
                 for(int l = 0;l < ts.size();l++){
                     bool found = ts[l].findIntersection(rays[i][j],intersection);
                     if(found){
@@ -46,7 +54,7 @@ void Scene::render(Camera cam,unsigned int*** image, int wR,int wC){
                         }
                         l = ts.size();
                     }
-                }
+                }*/
             }
             //cout << "WELL" << endl;
             if(dist == HUGE_VALF){
@@ -61,7 +69,8 @@ void Scene::render(Camera cam,unsigned int*** image, int wR,int wC){
                 //cout << dist << endl;
             }
         }
-        cout << i-res[0]*(x/((float)wT)) << endl;
+        util::loadingBar(i,int(res[0]*(1./((float)wT))),'#','-',"Rendering: ",50);
+        //cout << i-res[0]*(x/((float)wT)) << endl;
     }
     delete intersection; 
 }

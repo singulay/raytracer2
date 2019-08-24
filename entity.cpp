@@ -3,15 +3,22 @@
 #include "entity.h"
 #include "util.h"
 #include "camera.h"
+#include "triangle.h"
+#include "tree.cpp"
 
 using namespace std;
 
 Entity::Entity(vector<Triangle>* t){
     this->ts = *t;
+    this->tree = new Tree(t,0);
 }
 
 vector<Triangle>* Entity::getTriangles(){
    return &ts;
+}
+
+bool Entity::findIntersection(float** ray,float* pI){
+    return tree->getIntersection(ray,pI);
 }
 
 void Entity::sortWRTDistToCamera(Camera cam){

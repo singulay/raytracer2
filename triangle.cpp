@@ -7,13 +7,19 @@ using namespace std;
 
 Triangle::Triangle(float** vs,float** ts,float** ns,char* name){
     this->name = name;
-    this->vs = vs;
-    q = vs[0];
-    u = new float[3];
-    v = new float[3];
+    for(int i = 0;i < 3;i++){
+        for(int j = 0;j < 3;j++){
+            this->vs[i][j] = vs[i][j];
+        }
+    }
+    q[0] = vs[0][0];
+    q[1] = vs[0][1];
+    q[2] = vs[0][2];
+    //u = new float[3];
+    //v = new float[3];
     util::minus(vs[1],q,u);
     util::minus(vs[2],q,v);
-    n = new float[3];
+    //n = new float[3];
     util::cross(u,v,n);
     uv = util::dot(u,v);
     uu = util::dot(u,u);

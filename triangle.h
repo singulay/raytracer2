@@ -8,14 +8,15 @@ class Triangle{
     public:
     Triangle(float** vs,float** ts,float** ns,char* name);
     bool findIntersection(float** ray,float* pI);
-    float** vs;
+    float vs[3][3];
     float getDistToCam();
     void calcDistToCam(Camera cam);
-    private:
-    float *q,*u,*v,*n;
+    //float *q,*u,*v,*n;
+    float q[3],v[3],u[3],n[3];
     float uv,uu,vv,denominator;
     char* name;
     float distToCam;
+    private:
 };
 #define TRIANGLE
 #endif

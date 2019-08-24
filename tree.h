@@ -1,14 +1,19 @@
 #ifndef TREE
 
+#include<vector>
+#include "triangle.h"
+
 class Tree{
     public:
-      Tree(float[2] location, vector<float> space, int depth); // takes list of points, depth
+        Tree(vector<Triangle>* t);
+        Tree(vector<Triangle>* t,int depth);
+        float** box;
+        Tree *left,*right;
+        Triangle* tri;
+        bool getIntersection(float** ray,float* pI);
     private:
-      float location;
-      float median;
-      Tree* left;
-      Tree* right;
-
+        void calcBoundingBox(vector<Triangle>* t);
+        
 };
 
 #define TREE

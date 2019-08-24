@@ -158,6 +158,17 @@ bool compareTriangle(Triangle t1,Triangle t2){
     return t1.getDistToCam() > t2.getDistToCam();
 }
 
+void initTo(float* vec,float val){
+    vec[0] = val;
+    vec[1] = val;
+    vec[2] = val;
+}
+
+void loadingBar(int prog, int tot, char tok = '#', char tok2 = '-', std::string msg = "Progress:", int len = 50){
+    int v = (len*prog)/tot;
+    std::cout << "\r" << msg << " |" << std::string(v, tok) << std::string(len-v, tok2) << "| " << prog << "/" << tot;
+}
+
 }
 
 #define UTIL

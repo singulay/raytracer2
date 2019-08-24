@@ -34,6 +34,7 @@ void Camera::calculateRays(){
             for(int j = 0;j < res[1];j++){
                 delete[] rays[i][j][0];
                 delete[] rays[i][j][1];
+                delete[] rays[i][j][2];
             }
             delete[] rays[i];
         }
@@ -43,9 +44,10 @@ void Camera::calculateRays(){
     for(int i = 0;i < res[0];i++){
         rays[i] = new float**[res[1]];
         for(int j = 0;j < res[1];j++){
-            rays[i][j] = new float*[2];
+            rays[i][j] = new float*[3];
             rays[i][j][0] = new float[3];
             rays[i][j][1] = new float[3];
+            rays[i][j][2] = new float[3];
         }
     }
     float** rotMat = util::getRot(dir);
@@ -64,6 +66,9 @@ void Camera::calculateRays(){
             rays[i][j][0][1] = pos[1];
             rays[i][j][0][2] = pos[2];
             util::multMatVec(r,tempVec,rays[i][j][1]);
+            for(int k = 0;k < 3;k++){
+                rays[i][j][2][k] = rays[i][j][1][k] != 0 ? 1./rays[i][j][1][k] : HUGE_VALF;
+            }
         }
     }
     util::freeMatrix(rotMat);
