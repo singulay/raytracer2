@@ -24,6 +24,10 @@ int* Camera::getRes(){
     return res;
 }
 
+float* Camera::getPos(){
+    return pos;
+}
+
 void Camera::calculateRays(){
     if(rays != 0){
         for(int i = 0;i < res[0];i++){

@@ -7,9 +7,8 @@
 class Scene{
     public:
     Scene(int fc,char** fn);
-    void render(Camera cam);
-    void makePhotonMap(Lightsource light);
-    bool inshadow(float*** point, Lightsource light);
+    void render(Camera cam,unsigned int*** image,int wR,int wC);
+    void sortTriangles(Camera cam);
     private:
     vector<Entity> objs;
 };

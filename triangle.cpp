@@ -1,11 +1,13 @@
 #include<vector>
 #include "triangle.h"
 #include "util.h"
+#include "camera.h"
 
 using namespace std;
 
 Triangle::Triangle(float** vs,float** ts,float** ns,char* name){
     this->name = name;
+    this->vs = vs;
     q = vs[0];
     u = new float[3];
     v = new float[3];
@@ -43,6 +45,15 @@ bool Triangle::findIntersection(float** ray,float* pI){
         return false;
     }
     return true;
+}
+
+void Triangle::calcDistToCam(Camera cam){
+    float* camPos = cam.getPos();
+    distToCam = min(min(util::dot(camPos,vs[0]),util::dot(camPos,vs[01])),util::dot(camPos,vs[2]));
+}
+
+float Triangle::getDistToCam(){
+    return distToCam;
 }
 
 /*int main(int a, char** b){
