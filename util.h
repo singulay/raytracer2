@@ -161,6 +161,8 @@ void loadingBar(int prog, int tot, char tok = '#', char tok2 = '-', std::string 
 
 }
 
+
+
 }
 #define UTIL
 #endif
