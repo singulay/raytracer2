@@ -38,7 +38,8 @@ void Scene::render(Camera cam,unsigned int*** image, int wR,int wC){
         for(int j = res[1]*(y/((float)wT));j < res[1]*((y+1)/((float)hT));j++){
             float distSq = HUGE_VALF;
             for(int k = 0;k < objs.size();k++){
-                bool found = objs[k].findIntersection(rays[i][j],intersection);
+                Triangle* t = 0;
+                bool found = objs[k].findIntersection(rays[i][j],intersection,&t);
                 if(found){
                     util::minus(intersection,rays[0][0][0],intersection);
                     float newDistSq = util::dot(intersection,intersection);
@@ -59,7 +60,6 @@ void Scene::render(Camera cam,unsigned int*** image, int wR,int wC){
                     }
                 }*/
             }
-            //cout << "WELL" << endl;
             if(distSq == HUGE_VALF){
                 image[i][j][0] = 0;
                 image[i][j][1] = 0;
@@ -67,9 +67,9 @@ void Scene::render(Camera cam,unsigned int*** image, int wR,int wC){
             }
             else{
                 dist = sqrt(distSq);
-                image[i][j][0] = 255 - int(255*dist/14.);
-                image[i][j][1] = 255 - int(255*dist/14.);
-                image[i][j][2] = 255 - int(255*dist/14.);
+                image[i][j][0] = 255 - int(255*dist/2000.);
+                image[i][j][1] = 255 - int(255*dist/2000.);
+                image[i][j][2] = 255 - int(255*dist/2000.);
                 //cout << dist << endl;
             }
         }
@@ -79,8 +79,34 @@ void Scene::render(Camera cam,unsigned int*** image, int wR,int wC){
     delete intersection; 
 }
 
+
+
 void Scene::sortTriangles(Camera cam){
     for(int k = 0;k < objs.size();k++){
         objs[k].sortWRTDistToCamera(cam);
     }
+}
+
+void Scene::pathTrace(float** ray,int depth,float* returnColor){
+    if(depth > 8){// max. depth reached, stop recursion
+        return;
+    }
+    // finde intersected triangle
+    float distSq = HUGE_VALF;
+    float intersection[3];
+    Triangle* tri = 0;
+    for(int k = 0;k < objs.size();k++){
+        bool found = objs[k].findIntersection(ray,intersection,&tri);
+        if(found){
+            util::minus(intersection,ray[0],intersection);
+            float newDistSq = util::dot(intersection,intersection);
+            if(newDistSq < distSq){
+                distSq = newDistSq;
+            }
+        }
+    }
+    if(tri == 0){// no triangle intersected, return black color
+        return;
+    }
+    
 }

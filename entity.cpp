@@ -17,7 +17,7 @@ vector<Triangle>* Entity::getTriangles(){
    return &ts;
 }
 
-bool Entity::findIntersection(float** ray,float* pI){
+bool Entity::findIntersection(float** ray,float* pI,Triangle** returnTri){
     /*float tempPI[3];
     float distVector[3];
     float dist = HUGE_VALF;
@@ -36,7 +36,7 @@ bool Entity::findIntersection(float** ray,float* pI){
         }
     }
     return dist != HUGE_VALF;*/
-    return tree->getIntersection(ray,pI,0);
+    return tree->getIntersection(ray,pI,0,returnTri);
 }
 
 

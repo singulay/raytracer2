@@ -5,12 +5,11 @@
 
 class Tree{
     public:
-        Tree(vector<Triangle>* t);
         Tree(vector<Triangle>* t,int depth);
         float** box;
         Tree *left,*right;
         Triangle* tri;
-        bool getIntersection(float** ray,float* pI,float* dist=0);
+        bool getIntersection(float** ray,float* pI,float* dist,Triangle** returnTri);
     private:
         void calcBoundingBox(vector<Triangle>* t);
         

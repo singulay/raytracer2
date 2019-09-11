@@ -6,18 +6,7 @@
 
 using namespace std;
 
-Tree::Tree(vector<Triangle>* t){
-    /*box = new float*[8];
-    for(int i = 0;i < 8;i++){
-        box[i] = new float[3];
-    }
-    calcBoundingBox();
-    Tree(t,1);*/
-};
-
 Tree::Tree(vector<Triangle>* t,int depth){
-    //cout << "depth = " <<  depth << endl;
-    //cout << "T = " << t->size() << endl;
     int axis = depth%3;
     box = new float*[2];
     for(int i = 0;i < 2;i++){
@@ -38,7 +27,7 @@ Tree::Tree(vector<Triangle>* t,int depth){
                 vsT[i][j] = t[0][0].vs[i][j];
             }
         }
-        tri = new Triangle(vsT,vsT,vsT,"NOEN");//&(t[0][0]);
+        tri = new Triangle(vsT,vsT,vsT,"NOEN");
     }
     else if(t->size() > 1){
         sort(t->begin(),t->end(),[&](Triangle t1, Triangle t2) {
@@ -60,17 +49,11 @@ Tree::Tree(vector<Triangle>* t,int depth){
         if(rightList.size() > 0){
             right = new Tree(&rightList,depth+1);
         }
-        //rightList.clear();
-        //leftList.clear();
-    }
-    if(depth >= 1){
-        //t->clear();
-        //delete t;
     }
 };
 
-bool Tree::getIntersection(float** ray,float* pI,float* dist){
-    //else check for AABB intersection
+bool Tree::getIntersection(float** ray,float* pI,float* dist,Triangle** returnTri){
+    //check for AABB intersection
     float t0 = (box[0][0] - ray[0][0])*ray[2][0];
     float t1 = (box[1][0] - ray[0][0])*ray[2][0];
     float t2 = (box[0][1] - ray[0][1])*ray[2][1];
@@ -126,9 +109,9 @@ bool Tree::getIntersection(float** ray,float* pI,float* dist){
     bool leftTree = false;
     bool rightTree = false;
     if(left != 0)
-        leftTree = left->getIntersection(ray,pI,dist);
+        leftTree = left->getIntersection(ray,pI,dist,returnTri);
     if(right != 0)
-        rightTree = right->getIntersection(ray,pI,dist);
+        rightTree = right->getIntersection(ray,pI,dist,returnTri);
     if(left == 0 && right == 0){ // is leaf
         float tempPI[3];
         float distVector[3];
@@ -141,6 +124,7 @@ bool Tree::getIntersection(float** ray,float* pI,float* dist){
                 pI[0] = tempPI[0];
                 pI[1] = tempPI[1];
                 pI[2] = tempPI[2];
+                returnTri[0] = tri;
             }
         }
         return intersects;

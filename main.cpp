@@ -8,8 +8,8 @@
 #include <cmath>
 #include <functional>
 #include "scene.cpp"
-#include "mainwindow.h"
-#include <QApplication>
+//#include "mainwindow.h"
+//#include <QApplication>
 //#include <mpi.h>
 
 using namespace std;
@@ -47,37 +47,6 @@ bool getBoxIntersection(float** box, float** ray){
 }
 
 int main(int argc,char** argv){
-    float **box = new float*[2];
-    box[0] = new float[3]; 
-    box[1] = new float[3]; 
-    
-    float **ray = new float*[3];
-    ray[0] = new float[3]; 
-    ray[1] = new float[3]; 
-    ray[2] = new float[3]; 
-    
-    box[0][0] = -1;
-    box[0][1] = -1;
-    box[0][2] = 0;
-
-    box[1][0] = 1;
-    box[1][1] = 1;
-    box[1][2] = 0;
-    
-    ray[0][0] = 0;
-    ray[0][1] = 0;
-    ray[0][2] = 5;
-
-    ray[1][0] = 0;
-    ray[1][1] = 0;
-    ray[1][2] = -1;
-    
-    ray[2][0] = -HUGE_VALF;
-    ray[2][1] = -HUGE_VALF;
-    ray[2][2] = -1;
-    
-    cout << "LOREM IPSUM DOLOR " <<  getBoxIntersection(box,ray) << endl;
-
     //  MPI_Init(NULL,NULL);
     
     int worldSize;
@@ -89,10 +58,10 @@ int main(int argc,char** argv){
     worldRank = 0;
     worldSize = 1;
 
-    Scene s(1,argv+1);
+    Scene s(argc-1,argv+1);
     float pos[3];
     float dir[3];
-    pos[0] = 5;
+    /*pos[0] = 5;
     pos[1] = 5;
     pos[2] = 5;
     dir[0] = -1;
@@ -105,11 +74,25 @@ int main(int argc,char** argv){
     res[0] = 1000;
     res[1] = 1000;
     float tilt = 0;//-M_PI/2.;
-    float dist = 1;
+    float dist = 1;*/
+    pos[0] = 278;
+    pos[1] = 273;
+    pos[2] = -800;
+    dir[0] = 0;
+    dir[1] = 0;
+    dir[2] = 1;
+    float size[2];
+    size[0] = 0.025;
+    size[1] = 0.025;
+    int res[2];
+    res[0] = 1000;
+    res[1] = 1000;
+    float tilt = -M_PI/2.;
+    float dist = 0.035;
     Camera cam(pos,dir,size,tilt,dist,res);
     unsigned int*** image;
     //if(worldRank == 0){
-        image = util::allocateRGBImage(res);
+    image = util::allocateRGBImage(res);
     //}
     //unsigned int*** image2;
     //MPI_Barrier(MPI_COMM_WORLD);

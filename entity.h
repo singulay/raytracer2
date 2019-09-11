@@ -11,7 +11,7 @@ class Entity{
     Entity(vector<Triangle>* t);
     vector<Triangle>* getTriangles();
     void sortWRTDistToCamera(Camera cam);
-    bool findIntersection(float** ray,float* pI);
+    bool findIntersection(float** ray,float* pI,Triangle** returnTri);
     private:
     vector<Triangle> ts;
     Tree* tree;
