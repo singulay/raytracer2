@@ -10,7 +10,7 @@ class Tree{
         float** box;
         Tree *left,*right;
         Triangle* tri;
-        bool getIntersection(float** ray,float* pI);
+        bool getIntersection(float** ray,float* pI,float* dist=0);
     private:
         void calcBoundingBox(vector<Triangle>* t);
         

@@ -62,6 +62,12 @@ float Triangle::getDistToCam(){
     return distToCam;
 }
 
+string Triangle::print(){
+    char text[200];
+    sprintf(text,"{[%d,%d,%d],[%d,%d,%d],[%d,%d,%d]}",(int)vs[0][0],(int)vs[0][1],(int)vs[0][2],(int)vs[1][0],(int)vs[1][1],(int)vs[1][2],(int)vs[2][0],(int)vs[2][1],(int)vs[2][2]);
+    return text;
+}
+
 /*int main(int a, char** b){
     float pos[3];
     float dir[3];

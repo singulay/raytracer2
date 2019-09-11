@@ -8,7 +8,9 @@
 #include <cmath>
 #include <functional>
 #include "scene.cpp"
-#include <mpi.h>
+#include "mainwindow.h"
+#include <QApplication>
+//#include <mpi.h>
 
 using namespace std;
 
@@ -56,33 +58,36 @@ int main(int argc,char** argv){
     
     box[0][0] = -1;
     box[0][1] = -1;
-    box[0][2] = -1;
+    box[0][2] = 0;
 
     box[1][0] = 1;
     box[1][1] = 1;
-    box[1][2] = 1;
+    box[1][2] = 0;
     
-    ray[0][0] = 5;
+    ray[0][0] = 0;
     ray[0][1] = 0;
-    ray[0][2] = 0;
+    ray[0][2] = 5;
 
-    ray[1][0] = 1;
+    ray[1][0] = 0;
     ray[1][1] = 0;
-    ray[1][2] = 0;
+    ray[1][2] = -1;
     
-    ray[2][0] = 1;
+    ray[2][0] = -HUGE_VALF;
     ray[2][1] = -HUGE_VALF;
-    ray[2][2] = -HUGE_VALF;
+    ray[2][2] = -1;
     
     cout << "LOREM IPSUM DOLOR " <<  getBoxIntersection(box,ray) << endl;
 
-    MPI_Init(NULL,NULL);
+    //  MPI_Init(NULL,NULL);
     
     int worldSize;
-    MPI_Comm_size(MPI_COMM_WORLD,&worldSize);
+    //  MPI_Comm_size(MPI_COMM_WORLD,&worldSize);
     
     int worldRank;
-    MPI_Comm_rank(MPI_COMM_WORLD,&worldRank);
+    //  MPI_Comm_rank(MPI_COMM_WORLD,&worldRank);
+    
+    worldRank = 0;
+    worldSize = 1;
 
     Scene s(1,argv+1);
     float pos[3];
@@ -115,8 +120,8 @@ int main(int argc,char** argv){
     char fname[300];
     sprintf(fname,"testMT%d.ppm",worldRank);
     imageToFile(fname,image,cam.getRes());
-    MPI_Barrier(MPI_COMM_WORLD);
+    //  MPI_Barrier(MPI_COMM_WORLD);
     
-    MPI_Finalize();
+    //  MPI_Finalize();
     return 0;
 }

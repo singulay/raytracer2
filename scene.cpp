@@ -4,7 +4,7 @@
 #include "scene.h"
 #include "parser.cpp"
 
-#include <mpi.h>
+//include <mpi.h>
 
 Scene::Scene(int fc,char** fn){
     for(int i = 0;i < fc;i++){
@@ -29,18 +29,21 @@ void Scene::render(Camera cam,unsigned int*** image, int wR,int wC){
     int y = int(wR/wT);
     
     vector<Triangle> ts;
+    float dist = 0;
     //sortTriangles(cam);
     float* intersection = new float[3];
     for(int i = res[0]*(x/((float)wT));i < res[0]*((x+1)/((float)wT));i++){
+        //cout << i << endl; 
+        
         for(int j = res[1]*(y/((float)wT));j < res[1]*((y+1)/((float)hT));j++){
-            float dist = HUGE_VALF;
+            float distSq = HUGE_VALF;
             for(int k = 0;k < objs.size();k++){
                 bool found = objs[k].findIntersection(rays[i][j],intersection);
                 if(found){
                     util::minus(intersection,rays[0][0][0],intersection);
-                    float newDist = sqrt(util::dot(intersection,intersection));
-                    if(newDist < dist){
-                        dist = newDist;
+                    float newDistSq = util::dot(intersection,intersection);
+                    if(newDistSq < distSq){
+                        distSq = newDistSq;
                     }
                 }
                 /*ts = *(objs[k].getTriangles());
@@ -57,19 +60,20 @@ void Scene::render(Camera cam,unsigned int*** image, int wR,int wC){
                 }*/
             }
             //cout << "WELL" << endl;
-            if(dist == HUGE_VALF){
+            if(distSq == HUGE_VALF){
                 image[i][j][0] = 0;
                 image[i][j][1] = 0;
                 image[i][j][2] = 255;
             }
             else{
+                dist = sqrt(distSq);
                 image[i][j][0] = 255 - int(255*dist/14.);
                 image[i][j][1] = 255 - int(255*dist/14.);
                 image[i][j][2] = 255 - int(255*dist/14.);
                 //cout << dist << endl;
             }
         }
-        util::loadingBar(i,int(res[0]*(1./((float)wT))),'#','-',"Rendering: ",50);
+        //util::loadingBar(i,int(res[0]*(1./((float)wT))),'#','-',"Rendering: ",50);
         //cout << i-res[0]*(x/((float)wT)) << endl;
     }
     delete intersection; 

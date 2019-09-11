@@ -67,7 +67,7 @@ void Camera::calculateRays(){
             rays[i][j][0][2] = pos[2];
             util::multMatVec(r,tempVec,rays[i][j][1]);
             for(int k = 0;k < 3;k++){
-                rays[i][j][2][k] = rays[i][j][1][k] != 0 ? 1./rays[i][j][1][k] : HUGE_VALF;
+                rays[i][j][2][k] = rays[i][j][1][k] != 0 ? 1./rays[i][j][1][k] : 0;//HUGE_VALF;
             }
         }
     }

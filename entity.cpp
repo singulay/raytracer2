@@ -18,8 +18,27 @@ vector<Triangle>* Entity::getTriangles(){
 }
 
 bool Entity::findIntersection(float** ray,float* pI){
-    return tree->getIntersection(ray,pI);
+    /*float tempPI[3];
+    float distVector[3];
+    float dist = HUGE_VALF;
+    for(int i = 0;i < ts.size();i++){
+        cout << ts[i].print() << " aaand : " << ts[i].findIntersection(ray,tempPI) << endl;
+        bool intersects = ts[i].findIntersection(ray,tempPI);
+        if(intersects){
+            util::minus(ray[0],tempPI,distVector);
+            float newDist = util::dot(distVector,distVector);
+            if(newDist < dist){
+                dist = newDist;//dist[0] = 10;//
+                pI[0] = tempPI[0];//ray[0][0]+10;//tempPI[0];
+                pI[1] = tempPI[1];//ray[0][1];//
+                pI[2] = tempPI[2];//ray[0][2];//tempPI[2];
+            }
+        }
+    }
+    return dist != HUGE_VALF;*/
+    return tree->getIntersection(ray,pI,0);
 }
+
 
 void Entity::sortWRTDistToCamera(Camera cam){
     float* camPos = cam.getPos();
